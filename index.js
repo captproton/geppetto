@@ -69,6 +69,8 @@ async function cart(pid) {
   // }
   console.log(result);
 
+  if (result[0]) {console.log('result is true')} else {console.log('result is false')}
+
   await browser.close();
   console.log('cart done')
 
