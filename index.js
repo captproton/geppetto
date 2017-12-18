@@ -1,4 +1,5 @@
-const puppeteer = require('puppeteer');
+const puppeteer   = require('puppeteer');
+const args = require('yargs').argv;
 
 async function getPic(url) {
   const browser = await puppeteer.launch({
@@ -27,9 +28,9 @@ async function scrape(url) {
     await page.click('#default > div > div > div > div > section > div:nth-child(2) > ol > li:nth-child(1) > article > div.image_container > a > img');
     await page.waitFor(1000);
 
-    const result = await page.evaluate(() => {
-        let title = document.querySelector('h1').innerText;
-        let price = document.querySelector('.price_color').innerText;
+    const result    = await page.evaluate(() => {
+        let title   = document.querySelector('h1').innerText;
+        let price   = document.querySelector('.price_color').innerText;
 
         return {
             title,
@@ -57,8 +58,8 @@ async function cart(pid) {
   await page.goto(url);
   await page.setViewport({ width: 1200, height: 800 });
   await page.screenshot({ path: 'adidas.png' });
-  const bodyHTML = await page.evaluate(() => document.body.innerHTML);
-  const result = await page.evaluate(() => {
+  const bodyHTML  = await page.evaluate(() => document.body.innerHTML);
+  const result    = await page.evaluate(() => {
             const spans = Array.from(document.querySelectorAll('.minicart_info span'))
             return spans.map(span => span.textContent)
             });
@@ -69,20 +70,18 @@ async function cart(pid) {
   // }
   console.log(result);
 
-  if (result[0]) {console.log('result is true')} else {console.log('result is false')}
+  if (result[0]) {console.log('carted ' + args.style_and_size_code)} else {console.log('no joy for ' + args.style_and_size_code)}
 
   await browser.close();
   console.log('cart done')
 
 }
 
-  console.log('start');
-  console.log('starter');
-  // getPic('http://www.adidas.co.uk/on/demandware.store/Sites-adidas-GB-Site/en_GB/Cart-MiniAddProduct?layer=Add+To+Bag+overlay&ajax=true&pid=AC7748_650');
-  // cart('http://www.adidas.co.uk/on/demandware.store/Sites-adidas-GB-Site/en_GB/Cart-MiniAddProduct?layer=Add+To+Bag+overlay&ajax=true&pid=AC7748_650');
+console.log('start');
   // out of stock
-  cart('AC7748_650')
+// cart('AC7748_650');
   // in stock
-  cart('BY3602_610')
-
+// cart('BY3602_610');
+cart(args.style_and_size_code);
+console.log('finished');
 
