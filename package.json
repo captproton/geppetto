@@ -6,8 +6,10 @@
   "author": "captproton",
   "license": "MIT",
   "dependencies": {
+    "cheerio": "^1.0.0-rc.2",
     "minimist": "^1.2.0",
     "puppeteer": "^0.13.0",
+    "request": "^2.83.0",
     "yargs": "^10.0.3"
   },
   "devDependencies": {
